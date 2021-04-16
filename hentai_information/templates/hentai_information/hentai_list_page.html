@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hentai list</title>
+</head>
+<body>
+
+<header>
+    <p><a href="{% url 'authentication:logout' %}">Logout</a></p>
+    <p><a href="{% url 'hentai_information:addHentaiPage' %}">Add hentai</a></p>
+</header>
+<h1>Hentai List</h1>
+{% for hentai in object_list %}
+    <p><a href="{% url 'hentai_information:viewHentaiPage' %}?title={{ hentai.title }}">{{ hentai }}</a></p>
+{% endfor %}
+</body>
+</html>

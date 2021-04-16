@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add hentai</title>
+</head>
+
+<body>
+<header>
+    <p><a href="{% url 'hentai_information:hentaiListPage' %}">Back</a></p>
+</header>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" onmousedown="sound.play();" value="Add">
+</form>
+
+<script>
+    let sound = new Audio();
+    sound.src = '{% static 'hentai_information/moan.mp3' %}';
+</script>
+
+</body>
+</html>
