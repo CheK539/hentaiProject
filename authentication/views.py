@@ -11,7 +11,7 @@ from django.views.generic import CreateView
 class RegisterView(CreateView):
     form_class = UserCreationForm
     template_name = 'registration/register.html'
-    success_url = reverse_lazy('hentai_information:hentaiListPage')
+    success_url = reverse_lazy('hentai_information:registerGamePage')
 
     def form_valid(self, form):
         form.save()
