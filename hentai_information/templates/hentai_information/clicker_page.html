@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Clicker</title>
+</head>
+<body>
+<header>
+    <p><a href="{% url 'authentication:logout' %}">Logout</a></p>
+</header>
+
+<div align="center">
+    <h1>Welcome to clicker!</h1>
+    <h2 id="coins">You have: {{ coins }}</h2>
+    <button onclick="callbackClick()">Click!</button>
+</div>
+</body>
+
+<script>
+    async function callbackClick() {
+        let response = await fetch('{% url 'clicker:clickPage' %}', {method: 'GET'});
+        let test = 'You have: ';
+        document.getElementById('coins').innerHTML = test + await response.json()
+    }
+</script>
+</html>
