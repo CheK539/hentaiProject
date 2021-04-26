@@ -1,24 +1,53 @@
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, TemplateView
+from django.views.generic import ListView, CreateView, TemplateView, RedirectView
 from rest_framework import generics
 
 from .forms import HentaiForm
-from .models import Hentai
-from .serializer import HentaiListSerializer, HentaiSerializer
+from .models import Hentai, GameModel
+from .serializer import GameSerializer
 
 
-class JsonList(generics.ListCreateAPIView):
-    queryset = Hentai.objects.all()
-    serializer_class = HentaiListSerializer
+class UsersGameJson(generics.ListAPIView):
+    serializer_class = GameSerializer
+    queryset = GameModel.objects.all()
 
 
-class CurrentJson(generics.ListCreateAPIView):
-    serializer_class = HentaiSerializer
-    model = Hentai
+class CurrentUserJson(generics.ListAPIView):
+    serializer_class = GameSerializer
+    model = GameModel
 
     def get_queryset(self):
-        return self.model.objects.filter(title=self.kwargs['title'])
+        return self.model.objects.filter(user=self.kwargs['id'])
+
+
+class RegisterGamePage(RedirectView):
+    url = reverse_lazy('hentai_information:clickerPage')
+
+    def get_redirect_url(self, *args, **kwargs):
+        if not GameModel.objects.filter(user=self.request.user.id):
+            game = GameModel()
+            game.user = self.request.user
+            game.save()
+
+        return super().get_redirect_url()
+
+
+class ClickerPage(TemplateView):
+    template_name = 'hentai_information/clicker_page.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return super().get(request, *args, **kwargs)
+
+        return redirect('authentication:login')
+
+    def get_context_data(self, **kwargs):
+        game_model = GameModel.objects.filter(user=self.request.user.id)[0]
+        serializer = GameSerializer(game_model)
+        context = super().get_context_data(**kwargs)
+        context.update(serializer.data)
+        return context
 
 
 class HentaiListPage(ListView):
