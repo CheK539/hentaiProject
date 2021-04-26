@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'hentai_information',
     'authentication',
-    'rest_framework'
+    'rest_framework',
+    'clicker'
 ]
 
 MIDDLEWARE = [
@@ -121,7 +122,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-LOGIN_REDIRECT_URL = 'hentai_information:hentaiListPage'
+LOGIN_REDIRECT_URL = 'hentai_information:clickerPage'
 LOGOUT_REDIRECT_URL = 'authentication:login'
 
 STATIC_URL = '/static/'
