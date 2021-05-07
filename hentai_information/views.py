@@ -1,10 +1,9 @@
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, TemplateView, RedirectView
+from django.views.generic import TemplateView, RedirectView
 from rest_framework import generics
 
-from .forms import HentaiForm
-from .models import Hentai, GameModel
+from .models import GameModel, BoostDefault, Boost
 from .serializer import GameSerializer
 
 
@@ -29,6 +28,16 @@ class RegisterGamePage(RedirectView):
             game = GameModel()
             game.user = self.request.user
             game.save()
+            for boost_base in BoostDefault.objects.all():
+                boost = Boost()
+
+                boost.user = self.request.user
+                boost.name = boost_base.name
+                boost.price = boost_base.price
+                boost.power = boost_base.power
+
+                boost.save()
+                game.boosts.add(boost)
 
         return super().get_redirect_url()
 
@@ -43,42 +52,9 @@ class ClickerPage(TemplateView):
         return redirect('authentication:login')
 
     def get_context_data(self, **kwargs):
-        game_model = GameModel.objects.filter(user=self.request.user.id)[0]
+        game_model = GameModel.objects.filter(user=self.request.user.id).first()
         serializer = GameSerializer(game_model)
         context = super().get_context_data(**kwargs)
         context.update(serializer.data)
-        return context
-
-
-class HentaiListPage(ListView):
-    template_name = 'hentai_information/hentai_list_page.html'
-    model = Hentai
-
-    def get(self, request, *args, **kwargs):
-        if request.user.is_authenticated:
-            return super().get(request, *args, **kwargs)
-
-        return redirect('authentication:login')
-
-
-class AddHentaiPage(CreateView):
-    template_name = 'hentai_information/add_hentai_page.html'
-    model = Hentai
-    form_class = HentaiForm
-    success_url = reverse_lazy('hentai_information:hentaiListPage')
-
-
-class HentaiInformationPage(TemplateView):
-    template_name = 'hentai_information/hentai_information.html'
-
-    def get_context_data(self, **kwargs):
-        title = 'title'
-        hentai = None
-        parameters = self.request.GET
-
-        if title in parameters and parameters[title]:
-            hentai = Hentai.objects.filter(title=parameters[title]).first()
-
-        context = super().get_context_data(**kwargs)
-        context['hentai'] = hentai
+        context['boosts'] = game_model.boosts.all()
         return context

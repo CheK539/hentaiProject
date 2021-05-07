@@ -1,26 +1,42 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Clicker</title>
+    <link rel="stylesheet" href="{% static 'hentai_information/css/style.css' %}">
 </head>
 <body>
 <header>
     <p><a href="{% url 'authentication:logout' %}">Logout</a></p>
 </header>
 
-<div align="center">
-    <h1>Welcome to clicker!</h1>
-    <h2 id="coins">You have: {{ coins }}</h2>
-    <button onclick="callbackClick()">Click!</button>
-</div>
-</body>
+<div class="main">
+    <div class="future">
+        <p>Future content</p>
+    </div>
 
-<script>
-    async function callbackClick() {
-        let response = await fetch('{% url 'clicker:clickPage' %}', {method: 'GET'});
-        let test = 'You have: ';
-        document.getElementById('coins').innerHTML = test + await response.json()
-    }
+    <div class="game">
+        <h1>Welcome to clicker!</h1>
+        <h2 class="clickPower">Your click power: {{ clickPower }}</h2>
+        <h2 class="coins">You have: {{ coins }}</h2>
+        <input type="image" class="girl" src="{% static 'hentai_information/images/nyanners.png' %}" alt="button image"
+               onclick="callbackClick()" height="250" width="250">
+    </div>
+
+    <div class="boosts">
+        {% for boost in boosts %}
+            <div class="boost" onclick="buyBoost({{ boost.id }})">
+                <img class="image-simp" src="static/hentai_information/images/simp-{{ forloop.counter }}.png" alt="simp">
+                <p class="text-simp">{{ boost.name }} (+{{ boost.power }} power)</p>
+                <p class="simp-price price-{{ boost.id }}">{{ boost.price }} coins</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="{% static 'hentai_information/js/clicker.js' %}">
 </script>
+
+</body>
 </html>
