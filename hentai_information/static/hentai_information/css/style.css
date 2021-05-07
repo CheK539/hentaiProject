@@ -1,0 +1,69 @@
+.main {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    column-gap: 10px;
+}
+
+.future {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    border: 1px solid black;
+}
+
+.game {
+    grid-column: 2 / 3;
+    grid-row: 1 / 3;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.boosts {
+    grid-column: 3 / 4;
+    grid-row: 1 / 3;
+    border: 1px solid black;;
+}
+
+.girl {
+    outline: none;
+}
+
+.girl:hover {
+    opacity: 0.8;
+}
+
+.girl:active {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.boost {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    margin: 5px;
+    column-gap: 10px;
+    background-color: lightgrey;
+}
+
+.boost:hover {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.boost:active {
+    opacity: 1;
+}
+
+.image-simp {
+    height: 50px;
+    width: 50px;
+    grid-row: 1 / 3;
+}
+
+.text-simp {
+    margin: 0;
+}
+
+.simp-price {
+    margin: 0;
+}
