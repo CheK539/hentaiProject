@@ -20,14 +20,16 @@
         <h1>Welcome to clicker!</h1>
         <h2 class="clickPower">Your click power: {{ clickPower }}</h2>
         <h2 class="coins">You have: {{ coins }}</h2>
+
         <input type="image" class="girl" src="{% static 'hentai_information/images/nyanners.png' %}" alt="button image"
                onclick="callbackClick()" height="250" width="250">
     </div>
 
     <div class="boosts">
         {% for boost in boosts %}
-            <div class="boost" onclick="buyBoost({{ boost.id }})">
-                <img class="image-simp" src="static/hentai_information/images/simp-{{ forloop.counter }}.png" alt="simp">
+            <div class="boost" onclick="buyBoost({{ boost.id }}, {{ forloop.counter0 }})">
+                <img class="image-simp" src="static/hentai_information/images/simp-{{ forloop.counter }}.png"
+                     alt="simp">
                 <p class="text-simp">{{ boost.name }} (+{{ boost.power }} power)</p>
                 <p class="simp-price price-{{ boost.id }}">{{ boost.price }} coins</p>
             </div>
