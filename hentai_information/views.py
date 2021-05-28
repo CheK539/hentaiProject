@@ -28,7 +28,11 @@ class RegisterGamePage(RedirectView):
             game = GameModel()
             game.user = self.request.user
             game.save()
-            for boost_base in BoostDefault.objects.all():
+
+            for count, boost_base in enumerate(BoostDefault.objects.all()):
+                if count > 1:
+                    break
+
                 boost = Boost()
 
                 boost.user = self.request.user

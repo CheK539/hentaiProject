@@ -17,9 +17,8 @@ class BoostBase(models.Model):
 
 
 class BoostDefault(BoostBase):
-    name = models.CharField(max_length=50)
-    power = models.IntegerField(default=1)
-    price = models.IntegerField(default=10)
+    def __str__(self):
+        return f'{self.name}: {self.power}'
 
 
 class Boost(BoostBase):
@@ -34,14 +33,22 @@ class GameModel(models.Model):
     coins = models.IntegerField(default=0)
     clickPower = models.IntegerField(default=1)
     boosts = models.ManyToManyField(Boost)
+    nextGoal = models.IntegerField(default=20)
 
     def click(self):
         self.coins += self.clickPower
 
+        self.save()
+
+    def checkGoal(self):
+        return self.coins > self.nextGoal
+
     def buyBoost(self, boost_id):
         boost = self.boosts.filter(id=boost_id).first()
+
         if boost.price > self.coins:
             return
+
         self.clickPower += boost.power
         self.coins -= boost.price
         boost.price = int(boost.price * 1.5 + 0.5)
