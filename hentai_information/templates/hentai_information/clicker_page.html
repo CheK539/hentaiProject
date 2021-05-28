@@ -27,14 +27,21 @@
 
     <div class="boosts">
         {% for boost in boosts %}
-            <div class="boost" onclick="buyBoost({{ boost.id }}, {{ forloop.counter0 }})">
-                <img class="image-simp" src="static/hentai_information/images/simp-{{ forloop.counter }}.png"
-                     alt="simp">
+            <div class="boost" onclick="buyBoost({{ boost.id }}, 1)">
+                <img class="image-simp" src="{% static 'hentai_information/images/simp-1.png' %}" alt="simp">
                 <p class="text-simp">{{ boost.name }} (+{{ boost.power }} power)</p>
                 <p class="simp-price price-{{ boost.id }}">{{ boost.price }} coins</p>
             </div>
         {% endfor %}
     </div>
+
+    <template id="boost-template">
+        <div class="boost">
+            <img class="image-simp" src="" alt="simp">
+            <p class="text-simp"></p>
+            <p class="simp-price"></p>
+        </div>
+    </template>
 </div>
 
 <script src="{% static 'hentai_information/js/clicker.js' %}">
