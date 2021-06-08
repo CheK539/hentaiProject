@@ -1,4 +1,3 @@
-from django.http import Http404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from hentai_information.models import GameModel, BoostDefault, Boost
@@ -6,6 +5,12 @@ from hentai_information.serializer import BoostSerializer
 
 
 # Create your views here.
+
+# ToDo:
+#  1. Сделать автоматические клики
+#  2. Сделать внешнее отключение бустов, если недостаточно монет
+#  3. Сделать сохранение числа кликов через определенный интервал времени
+#  4. Добавить задние фоны для страницы, улучшение внешнего вида
 
 @api_view(['GET'])
 def click(request):
@@ -51,16 +56,12 @@ def showNextBoost(game_model, user):
 
 @api_view(['POST'])
 def buyBoost(request):
-    if request.method == 'POST':
-        game_model = GameModel.objects.filter(user=request.user.id).first()
+    game_model = GameModel.objects.filter(user=request.user.id).first()
 
-        boost_id = request.data['boost_id']
-        game_model.buyBoost(boost_id)
-        game_model.save()
-        boost = game_model.boosts.filter(id=boost_id).first()
-        content = {'clickPower': game_model.clickPower, 'coins': game_model.coins, 'price': boost.price}
+    boost_id = request.data['boost_id']
+    game_model.buyBoost(boost_id)
+    game_model.save()
+    boost = game_model.boosts.filter(id=boost_id).first()
+    content = {'clickPower': game_model.clickPower, 'coins': game_model.coins, 'price': boost.price}
 
-        # return HttpResponse(json.dumps(content))
-        return Response(content)
-
-    raise Http404()
+    return Response(content)
