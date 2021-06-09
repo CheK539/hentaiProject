@@ -4,6 +4,6 @@ from . import views
 
 app_name = 'clicker'
 urlpatterns = [
-    path('click/', login_required(views.click), name='clickPage'),
+    path('saveCoins/', login_required(views.saveCoins), name='saveClick'),
     path('buyBoost/', login_required(views.buyBoost), name='buyBoostPage'),
 ]

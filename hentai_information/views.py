@@ -7,12 +7,12 @@ from .models import GameModel, BoostDefault, Boost
 from .serializer import GameSerializer
 
 
-class UsersGameJson(generics.ListAPIView):
+class GamesJson(generics.ListAPIView):
     serializer_class = GameSerializer
     queryset = GameModel.objects.all()
 
 
-class CurrentUserJson(generics.ListAPIView):
+class CurrentGameJson(generics.ListAPIView):
     serializer_class = GameSerializer
     model = GameModel
 
@@ -61,4 +61,5 @@ class ClickerPage(TemplateView):
         context = super().get_context_data(**kwargs)
         context.update(serializer.data)
         context['boosts'] = game_model.boosts.all()
+
         return context

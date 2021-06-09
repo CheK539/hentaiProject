@@ -6,10 +6,10 @@ from hentai_information.models import GameModel, Boost
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = GameModel
-        fields = ['user', 'coins', 'clickPower']
+        fields = ['user', 'coins', 'clickPower', 'autoClickPower']
 
 
 class BoostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Boost
-        fields = ['id', 'power', 'price', 'name']
+        fields = ['id', 'power', 'price', 'name', 'type']
