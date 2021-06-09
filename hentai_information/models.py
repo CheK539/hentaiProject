@@ -60,6 +60,7 @@ class GameModel(models.Model):
         boost.price = int(boost.price * 1.5 + 0.5)
 
         boost.save()
+        self.save()
 
     def __str__(self):
         return f'{self.user}: {self.coins}'
