@@ -6,8 +6,6 @@ from hentai_information.serializer import BoostSerializer, GameSerializer
 
 # Create your views here.
 
-# ToDo:
-#  1. Добавить задние фоны для страницы, улучшение внешнего вида
 
 @api_view(['POST'])
 def saveCoins(request):
