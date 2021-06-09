@@ -29,6 +29,9 @@ class RegisterGamePage(RedirectView):
             game.user = self.request.user
             game.save()
 
+            if len(BoostDefault.objects.all()) == 0:
+                self.create_boosts()
+
             for count, boost_base in enumerate(BoostDefault.objects.all()):
                 if count > 1:
                     break
@@ -44,6 +47,24 @@ class RegisterGamePage(RedirectView):
                 game.boosts.add(boost)
 
         return super().get_redirect_url()
+
+    @staticmethod
+    def create_boosts():
+        prev_boost = None
+        for i in range(0, 2):
+            boost = BoostDefault()
+            boost.name = f'Simp {i + 1}'
+
+            if prev_boost is None:
+                boost.save()
+                prev_boost = boost
+                continue
+
+            boost.price = prev_boost.price * 11
+            boost.power = prev_boost.power * 5
+            boost.save()
+
+            prev_boost = boost
 
 
 class ClickerPage(TemplateView):
