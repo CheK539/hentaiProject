@@ -5,7 +5,7 @@
     column-gap: 10px;
 }
 
-.future {
+.autoClickBoosts {
     grid-column: 1 / 2;
     border: 1px solid black;
 }
@@ -64,4 +64,27 @@
 
 .simp-price {
     margin: 0;
+}
+
+.textBlock p {
+    display: inline;
+}
+
+.textBlock.panel {
+    margin-bottom: 5px;
+    border-bottom: 1px solid black;
+}
+
+.username {
+    border-bottom: 1px solid black;
+    text-align: left;
+    margin-bottom: 100px;
+}
+
+.textBlock.coins {
+    margin-top: 10px;
+}
+
+.boost[disabled] p{
+    opacity: 0.4;
 }

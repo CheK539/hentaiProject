@@ -12,26 +12,57 @@
 </header>
 
 <div class="main">
-    <div class="future">
-        <p>Future content</p>
+    {{ request.user.id|json_script:"user_id" }}
+    <div class="autoClickBoosts">
+        <div class="textBlock panel autoClick">
+            <p>Auto click power:</p>
+            <p class="data">{{ autoClickPower }}</p>
+        </div>
+        {% for boost in boosts %}
+            {% if boost.type == 1 %}
+                <div class="boost" onclick="buyBoost({{ boost.id }}, 1)">
+                    <img class="image-simp" src="{% static 'hentai_information/images/autoBoost-1.png' %}"
+                         alt="autoClicker">
+                    <p class="text-simp">{{ boost.name }} (+{{ boost.power }} power)</p>
+                    <div class="textBlock boostPrice">
+                        <p class="simp-price price-{{ boost.id }}">{{ boost.price }}</p>
+                        <p>coins</p>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
     </div>
 
     <div class="game">
-        <h1>Welcome to clicker!</h1>
-        <h2 class="clickPower">Your click power: {{ clickPower }}</h2>
-        <h2 class="coins">You have: {{ coins }}</h2>
+        <div class="textBlock username">
+            <p>{{ request.user }}</p>
+        </div>
 
         <input type="image" class="girl" src="{% static 'hentai_information/images/nyanners.png' %}" alt="button image"
                onclick="callbackClick()" height="250" width="250">
+
+        <div class="textBlock coins">
+            <p>Coins:</p>
+            <p class="data">{{ coins }}</p>
+        </div>
     </div>
 
     <div class="boosts">
+        <div class="textBlock panel clickPower">
+            <p>Click power:</p>
+            <p class="data">{{ clickPower }}</p>
+        </div>
         {% for boost in boosts %}
-            <div class="boost" onclick="buyBoost({{ boost.id }}, 1)">
-                <img class="image-simp" src="{% static 'hentai_information/images/simp-1.png' %}" alt="simp">
-                <p class="text-simp">{{ boost.name }} (+{{ boost.power }} power)</p>
-                <p class="simp-price price-{{ boost.id }}">{{ boost.price }} coins</p>
-            </div>
+            {% if boost.type == 0 %}
+                <div class="boost" onclick="buyBoost({{ boost.id }}, 1)">
+                    <img class="image-simp" src="{% static 'hentai_information/images/simp-1.png' %}" alt="simp">
+                    <p class="text-simp">{{ boost.name }} (+{{ boost.power }} power)</p>
+                    <div class="textBlock boostPrice">
+                        <p class="simp-price price-{{ boost.id }}">{{ boost.price }}</p>
+                        <p>coins</p>
+                    </div>
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
 
@@ -39,13 +70,15 @@
         <div class="boost">
             <img class="image-simp" src="" alt="simp">
             <p class="text-simp"></p>
-            <p class="simp-price"></p>
+            <div class="textBlock boostPrice">
+                <p class="simp-price"></p>
+                <p>coins</p>
+            </div>
         </div>
     </template>
 </div>
 
 <script src="{% static 'hentai_information/js/clicker.js' %}">
 </script>
-
 </body>
 </html>
